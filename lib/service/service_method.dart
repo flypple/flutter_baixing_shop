@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter_baixing_shop/config/http_service.dart';
 import 'package:flutter_baixing_shop/bean/category_bean.dart';
+import 'package:flutter_baixing_shop/bean/mall_goods_bean.dart';
 import 'dart:convert';
 
 //获取首页主体内容
@@ -20,10 +21,22 @@ Future getHomePageBelowConten(int page) async {
 }
 
 //获取首页主体内容
-Future<CategoryBean> getCategory() async {
+Future<CategoryResult> getCategory() async {
   print("开始获取首页底部数据......");
-  var data = await request(servicePath["homePageBelowConten"]);
-  return await CategoryBean.fromJson(jsonDecode(data));
+  var data = await request(servicePath["getCategory"]);
+  return await CategoryResult.fromJson(jsonDecode(data));
+}
+
+Future<MallGoodsResult> getGoodsList({String categoryId, String subCategoryId, int page}) async {
+  print("开始获取小类数据: categoryId = $categoryId --- subCategoryId = $subCategoryId --- page = $page");
+  Map formData = {
+    "categoryId": categoryId == null ? "4" : categoryId,
+    "categorySubId": subCategoryId == null ? "" : subCategoryId,
+    "page": page == null ? 1 : page,
+  };
+  print("小类数据参数：$formData");
+  var data = await request(servicePath["getMallGoods"], formData: formData);
+  return await MallGoodsResult.fromJson(jsonDecode(data));
 }
 
 Future request(String url, {formData}) async {

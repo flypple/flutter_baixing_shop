@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_baixing_shop/pages/home/home_page.dart';
-import 'category_page.dart';
+import 'package:flutter_baixing_shop/pages/category/category_page.dart';
 import 'cart_page.dart';
 import 'member_page.dart';
 

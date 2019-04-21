@@ -6,25 +6,26 @@ part of 'category_bean.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CategoryBean _$CategoryBeanFromJson(Map<String, dynamic> json) {
-  return CategoryBean(
+CategoryResult _$CategoryResultFromJson(Map<String, dynamic> json) {
+  return CategoryResult(
       json['code'] as String,
       json['message'] as String,
       (json['data'] as List)
-          ?.map((e) =>
-              e == null ? null : Data.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e == null
+              ? null
+              : CategoryBean.fromJson(e as Map<String, dynamic>))
           ?.toList());
 }
 
-Map<String, dynamic> _$CategoryBeanToJson(CategoryBean instance) =>
+Map<String, dynamic> _$CategoryResultToJson(CategoryResult instance) =>
     <String, dynamic>{
       'code': instance.code,
       'message': instance.message,
       'data': instance.data
     };
 
-Data _$DataFromJson(Map<String, dynamic> json) {
-  return Data(
+CategoryBean _$CategoryBeanFromJson(Map<String, dynamic> json) {
+  return CategoryBean(
       json['mallCategoryId'] as String,
       json['mallCategoryName'] as String,
       (json['bxMallSubDto'] as List)
@@ -35,7 +36,8 @@ Data _$DataFromJson(Map<String, dynamic> json) {
       json['image'] as String);
 }
 
-Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
+Map<String, dynamic> _$CategoryBeanToJson(CategoryBean instance) =>
+    <String, dynamic>{
       'mallCategoryId': instance.mallCategoryId,
       'mallCategoryName': instance.mallCategoryName,
       'bxMallSubDto': instance.bxMallSubDto,

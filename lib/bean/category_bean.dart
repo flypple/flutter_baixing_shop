@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'category_bean.g.dart';
 
 @JsonSerializable()
-class CategoryBean {
+class CategoryResult {
 
   @JsonKey(name: 'code')
   String code;
@@ -12,17 +12,16 @@ class CategoryBean {
   String message;
 
   @JsonKey(name: 'data')
-  List<Data> data;
+  List<CategoryBean> data;
 
-  CategoryBean(this.code,this.message,this.data,);
+  CategoryResult(this.code,this.message,this.data,);
 
-  factory CategoryBean.fromJson(Map<String, dynamic> srcJson) => _$CategoryBeanFromJson(srcJson);
-
+  factory CategoryResult.fromJson(Map<String, dynamic> srcJson) => _$CategoryResultFromJson(srcJson);
 }
 
 
 @JsonSerializable()
-class Data {
+class CategoryBean {
 
   @JsonKey(name: 'mallCategoryId')
   String mallCategoryId;
@@ -36,9 +35,9 @@ class Data {
   @JsonKey(name: 'image')
   String image;
 
-  Data(this.mallCategoryId,this.mallCategoryName,this.bxMallSubDto,this.image,);
+  CategoryBean(this.mallCategoryId,this.mallCategoryName,this.bxMallSubDto,this.image,);
 
-  factory Data.fromJson(Map<String, dynamic> srcJson) => _$DataFromJson(srcJson);
+  factory CategoryBean.fromJson(Map<String, dynamic> srcJson) => _$CategoryBeanFromJson(srcJson);
 
 }
 

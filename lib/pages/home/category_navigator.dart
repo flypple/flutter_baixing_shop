@@ -9,16 +9,17 @@ class CategoryNavigator extends StatelessWidget {
 
   Widget _createItem(item){
     return Container(
-      padding: EdgeInsets.only(top: 3),
+      height: ScreenUtil().setHeight(150),
       child: FlatButton(
         padding: EdgeInsets.all(0),
         onPressed: (){
           print("点击了分类");
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Image.network(item["image"], width: ScreenUtil().setWidth(90), height: ScreenUtil().setHeight(90),),
-            Text(item["mallCategoryName"], maxLines: 1,)
+            Text(item["mallCategoryName"], maxLines: 1, style: TextStyle(fontSize: 10),)
           ],
         ),
       ),
@@ -28,16 +29,14 @@ class CategoryNavigator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil().setHeight(310),
-      margin: EdgeInsets.only(top: 5),
-      padding: EdgeInsets.all(3),
+      padding: EdgeInsets.fromLTRB(3, 6, 3, 9,),
       color: Colors.white,
-
       child: GridView.count(
         physics: NeverScrollableScrollPhysics(),
         crossAxisCount: 5,
         mainAxisSpacing: 5,
         crossAxisSpacing: 5,
+        shrinkWrap: true,
         children: categoryList.map((item){
           return _createItem(item);
         }).toList(),
