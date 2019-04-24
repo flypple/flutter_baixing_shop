@@ -9,13 +9,15 @@ import 'package:flutter_baixing_shop/provide/counter.dart';
 import 'provide/category_provider.dart';
 import 'provide/mall_goods_provider.dart';
 import 'provide/goods_details_provider.dart';
+import 'provide/home_data_provider.dart';
 
 void main() {
   var providers = Providers()
     ..provide(Provider<Counter>.value(Counter()))
     ..provide(Provider<CategoryProvider>.value(CategoryProvider()))
     ..provide(Provider<MallGoodsProvider>.value(MallGoodsProvider()))
-    ..provide(Provider<GoodsDetailsProvider>.value(GoodsDetailsProvider()));
+    ..provide(Provider<GoodsDetailsProvider>.value(GoodsDetailsProvider()))
+    ..provide(Provider<HomeDataProvider>.value(HomeDataProvider()));
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 

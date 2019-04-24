@@ -5,20 +5,24 @@ import 'package:flutter_baixing_shop/config/http_service.dart';
 import 'package:flutter_baixing_shop/bean/category_bean.dart';
 import 'package:flutter_baixing_shop/bean/mall_goods_bean.dart';
 import 'package:flutter_baixing_shop/bean/goods_details_result.dart';
+import 'package:flutter_baixing_shop/bean/home_data_result.dart';
+import 'package:flutter_baixing_shop/bean/hot_goods_result.dart';
 import 'dart:convert';
 
 //获取首页主体内容
-Future getHomePageContent() async {
+Future<HomeDataResult> getHomePageContent() async {
   print("开始获取首页数据......");
   Map formData = {"lon": "115.02932", "lat": "35.76189"};
-  return await request(servicePath["homePageContent"], formData: formData);
+  var data = await request(servicePath["homePageContent"], formData: formData);
+  return await HomeDataResult.fromJson(jsonDecode(data));
 }
 
 //获取首页主体内容
-Future getHomePageBelowConten(int page) async {
+Future<HotGoodsResult> getHomePageBelowConten(int page) async {
   print("开始获取首页底部数据......");
   Map formData = {"page" : page};
-  return await request(servicePath["homePageBelowConten"], formData: formData);
+  var data = await request(servicePath["homePageBelowConten"], formData: formData);
+  return await HotGoodsResult.fromJson(jsonDecode(data));
 }
 
 //获取首页主体内容

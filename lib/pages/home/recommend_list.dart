@@ -5,8 +5,10 @@ import 'package:flutter_baixing_shop/route/routes.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_baixing_shop/bean/home_data_result.dart';
+
 class RecommendList extends StatelessWidget {
-  final List<Map> recommentList;
+  final List<Recommend> recommentList;
 
   const RecommendList({Key key, this.recommentList}) : super(key: key);
 
@@ -29,8 +31,8 @@ class RecommendList extends StatelessWidget {
 
     return InkWell(
       onTap: (){
-        print("点击商品${item["goodsId"]}");
-        Routes.toGoodsDetailsPage(context, item["goodsId"]);
+        print("点击商品${item.goodsId}");
+        Routes.toGoodsDetailsPage(context, item.goodsId);
       },
       child: Container(
         width: ScreenUtil().setWidth(250),
@@ -41,9 +43,9 @@ class RecommendList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network(item["image"]),
-            Text("￥${item["mallPrice"]}"),
-            Text("￥${item["price"]}", style: TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 12),),
+            Image.network(item.image),
+            Text("￥${item.mallPrice}"),
+            Text("￥${item.price}", style: TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 12),),
           ],
         ),
       ),

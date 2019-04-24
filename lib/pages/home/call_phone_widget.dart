@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_baixing_shop/bean/home_data_result.dart';
 
 class CallPhoneWidget extends StatelessWidget {
 
-  final String image;
-  final String phone;
+  final ShopInfo shopInfo;
 
-  CallPhoneWidget({this.image, this.phone});
+  CallPhoneWidget({this.shopInfo,});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: InkWell(
-        child: Image.network(image),
+        child: Image.network(shopInfo.leaderImage),
         onTap: _callPhone,
       ),
     );
   }
 
   void _callPhone() async {
-    String phoneUrl = "tel:$phone";
+    String phoneUrl = "tel:${shopInfo.leaderPhone}";
 
     if (await canLaunch(phoneUrl)) {
       await launch(phoneUrl);

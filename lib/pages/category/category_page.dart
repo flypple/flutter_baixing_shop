@@ -28,6 +28,22 @@ class _CategoryPageState extends State<CategoryPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text("分类"),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {
+                getMallGoodsProvider(context).switchModel();
+              },
+              icon: Provide<MallGoodsProvider>(
+                builder: (context, child, provider) {
+                  return Icon(
+                    provider.isListModel
+                        ? Icons.border_all : Icons.menu,
+                    color: Colors.white,
+                  );
+                },
+              ),
+            )
+          ],
         ),
         body: Container(
           child: Row(

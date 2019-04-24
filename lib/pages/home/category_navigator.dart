@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:flutter_baixing_shop/bean/home_data_result.dart';
+
 class CategoryNavigator extends StatelessWidget {
-  List categoryList;
+  List<Category> categoryList;
 
   CategoryNavigator({Key key, this.categoryList}): super(key: key);
 
-  Widget _createItem(item){
+  Widget _createItem(Category item){
     return Container(
       height: ScreenUtil().setHeight(150),
       child: FlatButton(
@@ -18,8 +20,8 @@ class CategoryNavigator extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network(item["image"], width: ScreenUtil().setWidth(90), height: ScreenUtil().setHeight(90),),
-            Text(item["mallCategoryName"], maxLines: 1, style: TextStyle(fontSize: 10),)
+            Image.network(item.image, width: ScreenUtil().setWidth(90), height: ScreenUtil().setHeight(90),),
+            Text(item.mallCategoryName, maxLines: 1, style: TextStyle(fontSize: 10),)
           ],
         ),
       ),

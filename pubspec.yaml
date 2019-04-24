@@ -33,6 +33,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  #运行"flutter packages pub run build_runner watch"，生成.g辅助文件。
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
 

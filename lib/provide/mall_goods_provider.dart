@@ -5,9 +5,12 @@ import 'package:provide/provide.dart';
 import 'package:flutter_baixing_shop/bean/mall_goods_bean.dart';
 
 class MallGoodsProvider with ChangeNotifier {
+
   List<MallGoodsBean> goodsList = [];
   bool loading = true;
   bool hasMore = false;
+
+  bool isListModel = true;
 
   void setData(List<MallGoodsBean> list) {
     loading = false;
@@ -29,6 +32,11 @@ class MallGoodsProvider with ChangeNotifier {
   void clear() {
     loading = true;
     goodsList.clear();
+    notifyListeners();
+  }
+
+  void switchModel() {
+    isListModel = !isListModel;
     notifyListeners();
   }
 }

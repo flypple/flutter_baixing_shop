@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:provide/provide.dart';
 
 import 'package:flutter_baixing_shop/pages/home/floor_widget.dart';
 import 'package:flutter_baixing_shop/pages/home/hot_goods.dart';
@@ -14,15 +15,10 @@ import 'category_navigator.dart';
 import 'ad_banner.dart';
 import 'call_phone_widget.dart';
 import 'recommend_list.dart';
+import 'package:flutter_baixing_shop/provide/home_data_provider.dart';
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
+class HomePage extends StatelessWidget {
 
-class _HomePageState extends State<HomePage> {
-
-  TextEditingController _textController = TextEditingController();
   String result = "";
 
   List<Map> goodsList = [];
@@ -31,88 +27,73 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<RefreshFooterState> _footerKey = GlobalKey();
 
   @override
-  void initState() {
-    super.initState();
-    print("initState");
-  }
-
-  @override
   Widget build(BuildContext context) {
     print("HomePage ====> building……");
+    loadHomeData(context);
     return Container(
       child: Scaffold(
         appBar: AppBar(
           title: Text("首页"),
           elevation: 0,
         ),
-        body: FutureBuilder(
-          future: getHomePageContent(),
-          builder: (context, snapshot){
-            if (snapshot.hasData) {
-              var data = json.decode(snapshot.data.toString())["data"];
-              List<Map> images = (data["slides"] as List).cast();
-              List categoryList = (data["category"] as List).cast();
-              categoryList.removeRange(10, categoryList.length);
-
-              String adImage = data["advertesPicture"]["PICTURE_ADDRESS"];
-
-              String leaderImage = data["shopInfo"]["leaderImage"];
-              String leaderPhone = data["shopInfo"]["leaderPhone"];
-              List<Map> recommendList = (data["recommend"] as List).cast();
-              Map floor1Data = data["floor1Pic"];
-              Map floor2Data = data["floor2Pic"];
-              Map floor3Data = data["floor3Pic"];
-              List<Map> floor1DataList = (data["floor1"] as List).cast();
-              List<Map> floor2DataList = (data["floor2"] as List).cast();
-              List<Map> floor3DataList = (data["floor3"] as List).cast();
-
-              return Container(
-                color: GlobalConfig.backgrondColor,
-                child: EasyRefresh(
-                  refreshFooter: ClassicsFooter(
-                    key: _footerKey,
-                    bgColor: Colors.white,
-                    textColor: Colors.grey,
-                    loadText: "上拉加载",
-                    loadReadyText: "上拉加载",
-                    loadingText: "加载中……",
-                    noMoreText: "加载完毕",
-                    moreInfo: "加载时间 %T",
-                    moreInfoColor: Colors.grey,
-                    showMore: true,
-                    isFloat: false,
-                  ),
-                  loadMore: loadMore,
-                  child: ListView(
-                    children: <Widget>[
-                      //轮播图
-                      MySwiper(images: images,),
-                      //分类
-                      CategoryNavigator(categoryList: categoryList,),
-                      //广告banner
-                      AdBanner(bannerImage: adImage,),
-                      //打电话
-                      CallPhoneWidget(image: leaderImage, phone: leaderPhone,),
-                      //商品推荐
-                      _createRecommend(recommendList),
-                      //楼层组件
-                      FloorWidget(titleData: floor1Data, dataList: floor1DataList,),
-                      FloorWidget(titleData: floor2Data, dataList: floor2DataList,),
-                      FloorWidget(titleData: floor3Data, dataList: floor3DataList,),
-                      //热卖专区
-                      HotGoods(goodsList: goodsList,),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ),
+        body: _createBody(),
       ),
+    );
+  }
+
+  Widget _createBody(){
+    return Provide<HomeDataProvider>(
+      builder: (context, child, provider){
+        if (provider.homeData != null) {
+          var homeData = provider.homeData;
+
+          return Container(
+            color: GlobalConfig.backgrondColor,
+            child: EasyRefresh(
+              refreshFooter: ClassicsFooter(
+                key: _footerKey,
+                bgColor: Colors.white,
+                textColor: Colors.grey,
+                loadText: "上拉加载",
+                loadReadyText: "上拉加载",
+                loadingText: "加载中……",
+                noMoreText: "加载完毕",
+                moreInfo: "加载时间 %T",
+                moreInfoColor: Colors.grey,
+                showMore: true,
+                isFloat: false,
+              ),
+              loadMore: (){
+                loadMore(context);
+              },
+              child: ListView(
+                children: <Widget>[
+                  //轮播图
+                  MySwiper(slideList: homeData.slides,),
+                  //分类
+                  CategoryNavigator(categoryList: homeData.category,),
+                  //广告banner
+                  AdBanner(advertes: homeData.advertesPicture,),
+                  //打电话
+                  CallPhoneWidget(shopInfo: homeData.shopInfo,),
+                  //商品推荐
+                  _createRecommend(homeData.recommend),
+                  //楼层组件
+                  FloorWidget(floor: homeData.floor1Pic, floorPicList: homeData.floor1,),
+                  FloorWidget(floor: homeData.floor2Pic, floorPicList: homeData.floor2,),
+                  FloorWidget(floor: homeData.floor3Pic, floorPicList: homeData.floor3,),
+                  //热卖专区
+                  HotGoodsListView(goodsList: provider.hotGoodsList,),
+                ],
+              ),
+            ),
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     );
   }
 
@@ -136,14 +117,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future loadMore() async {
-    return await getHomePageBelowConten(pages).then((value){
-      var map = jsonDecode(value);
-      var list = (map["data"] as List).cast<Map>();
-      setState(() {
-        goodsList.addAll(list);
-        pages++;
-      });
+  void loadHomeData(BuildContext context){
+    getHomePageContent().then((value){
+      HomeDataProvider.getProvider(context).setHomeData(value.data);
+    });
+  }
+
+  void loadMore(BuildContext context) async {
+    getHomePageBelowConten(pages).then((value){
+      HomeDataProvider.getProvider(context).addHotGoods(value.data);
     });
   }
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_easyrefresh/easy_refresh.dart';
-import 'package:flutter_baixing_shop/service/service_method.dart';
-import 'dart:convert';
+import 'package:flutter_baixing_shop/bean/hot_goods_result.dart';
 
-class HotGoods extends StatelessWidget {
+import 'package:flutter_baixing_shop/route/routes.dart';
 
-  final List<Map> goodsList;
+class HotGoodsListView extends StatelessWidget {
 
-  const HotGoods({Key key, this.goodsList}) : super(key: key);
+  final List<HotGoods> goodsList;
+
+  const HotGoodsListView({Key key, this.goodsList}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class HotGoods extends StatelessWidget {
       child: Column(
         children: <Widget>[
           _getTitle(),
-          _getGoodsWidgetList(),
+          _getGoodsWidgetList(context),
         ],
       ),
     );
@@ -29,10 +29,12 @@ class HotGoods extends StatelessWidget {
     );
   }
   
-  Widget _getGoodsWidgetList(){
+  Widget _getGoodsWidgetList(BuildContext context){
     List<Widget> widgetList = goodsList.map((item){
       return InkWell(
-        onTap: (){},
+        onTap: (){
+          Routes.toGoodsDetailsPage(context, item.goodsId);
+        },
         child: Container(
           width: ScreenUtil().setWidth(370),
           color: Colors.white,
@@ -40,9 +42,9 @@ class HotGoods extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Image.network(item["image"], width: ScreenUtil().setWidth(370),),
+              Image.network(item.image, width: ScreenUtil().setWidth(370),),
               Text(
-                item["name"],
+                item.name,
                 style: TextStyle(color: Colors.pinkAccent, fontSize: ScreenUtil().setSp(26)),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -50,11 +52,11 @@ class HotGoods extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Expanded(
-                    child: Text("￥${item["mallPrice"]}", style: TextStyle(fontSize: ScreenUtil().setSp(26)),),
+                    child: Text("￥${item.mallPrice}", style: TextStyle(fontSize: ScreenUtil().setSp(26)),),
                   ),
                   Expanded(
                     child: Text(
-                      "￥${item["price"]}",
+                      "￥${item.price}",
                       style: TextStyle(
                         fontSize: ScreenUtil().setSp(26),
                         color: Colors.grey,
