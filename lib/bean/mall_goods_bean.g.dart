@@ -11,8 +11,9 @@ MallGoodsResult _$MallGoodsResultFromJson(Map<String, dynamic> json) {
       json['code'] as String,
       json['message'] as String,
       (json['data'] as List)
-          ?.map((e) =>
-              e == null ? null : MallGoodsBean.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => e == null
+              ? null
+              : MallGoodsBean.fromJson(e as Map<String, dynamic>))
           ?.toList());
 }
 
@@ -27,12 +28,13 @@ MallGoodsBean _$MallGoodsBeanFromJson(Map<String, dynamic> json) {
   return MallGoodsBean(
       json['image'] as String,
       (json['oriPrice'] as num)?.toDouble(),
-      json['presentPrice'] as double,
+      (json['presentPrice'] as num)?.toDouble(),
       json['goodsName'] as String,
       json['goodsId'] as String);
 }
 
-Map<String, dynamic> _$MallGoodsBeanToJson(MallGoodsBean instance) => <String, dynamic>{
+Map<String, dynamic> _$MallGoodsBeanToJson(MallGoodsBean instance) =>
+    <String, dynamic>{
       'image': instance.image,
       'oriPrice': instance.oriPrice,
       'presentPrice': instance.presentPrice,

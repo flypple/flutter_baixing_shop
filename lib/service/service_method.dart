@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter_baixing_shop/config/http_service.dart';
 import 'package:flutter_baixing_shop/bean/category_bean.dart';
 import 'package:flutter_baixing_shop/bean/mall_goods_bean.dart';
+import 'package:flutter_baixing_shop/bean/goods_details_result.dart';
 import 'dart:convert';
 
 //获取首页主体内容
@@ -37,6 +38,15 @@ Future<MallGoodsResult> getGoodsList({String categoryId, String subCategoryId, i
   print("小类数据参数：$formData");
   var data = await request(servicePath["getMallGoods"], formData: formData);
   return await MallGoodsResult.fromJson(jsonDecode(data));
+}
+
+Future<GoodsDetailsResult> getGoodsDetais(String goodsId) async {
+  print("开始获取商品详情: goodsId = $goodsId");
+  Map formData = {
+    "goodId": goodsId
+  };
+  var data = await request(servicePath["getGoodDetailById"], formData: formData);
+  return await GoodsDetailsResult.fromJson(json.decode(data));
 }
 
 Future request(String url, {formData}) async {
