@@ -9,7 +9,7 @@ import 'package:provide/provide.dart';
 import 'package:flutter_baixing_shop/pages/home/floor_widget.dart';
 import 'package:flutter_baixing_shop/pages/home/hot_goods.dart';
 import 'package:flutter_baixing_shop/service/service_method.dart';
-import 'package:flutter_baixing_shop/global_config.dart';
+import 'package:flutter_baixing_shop/config/global_config.dart';
 import 'my_swiper.dart';
 import 'category_navigator.dart';
 import 'ad_banner.dart';

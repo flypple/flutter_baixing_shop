@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_baixing_shop/constants.dart';
 
 import 'package:provide/provide.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:flutter_baixing_shop/bean/mall_goods_bean.dart';
 
@@ -35,8 +37,21 @@ class MallGoodsProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void switchModel() {
-    isListModel = !isListModel;
+  void switchModel() async {
+    SharedPreferences instance = await SharedPreferences.getInstance();
+    bool success = await instance.setBool(Constants.isListType, !isListModel);
+    if (success) {
+      isListModel = !isListModel;
+      notifyListeners();
+    }
+  }
+
+  void getModules() async {
+    SharedPreferences instance = await SharedPreferences.getInstance();
+    bool isList = instance.getBool(Constants.isListType);
+    if (isList != null) {
+      isListModel = isList;
+    }
     notifyListeners();
   }
 }

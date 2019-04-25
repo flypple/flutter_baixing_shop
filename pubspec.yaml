@@ -29,11 +29,13 @@ dependencies:
   fluttertoast: ^3.0.1
   fluro: ^1.4.0
   flutter_html: ^0.9.6
+  shared_preferences: ^0.5.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  #运行"flutter packages pub run build_runner watch"，生成.g辅助文件。
+  # 运行"flutter packages pub run build_runner build"，生成.g辅助文件。
+  # 运行"flutter packages pub run build_runner watch"，可以实现文件监听，自动地为你后续创建的实体类生成对应的解析代码。
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
 

@@ -39,7 +39,6 @@ class MallGoodsList extends StatelessWidget {
         listWidget = Container(
           color: Colors.white,
           width: ScreenUtil().setWidth(570),
-          padding: EdgeInsets.only(left: 8, right: 8),
           child: EasyRefresh(
             refreshFooter: ClassicsFooter(
               key: _footerKey,
@@ -60,7 +59,6 @@ class MallGoodsList extends StatelessWidget {
               childAspectRatio: provider.isListModel ? 2.5 : 1,
               crossAxisCount: provider.isListModel ? 1 : 2,
               mainAxisSpacing: provider.isListModel ? 0 : 8,
-              crossAxisSpacing: 8,
               children: provider.goodsList.map((item) {
                 return _createItem(provider, item);
               }).toList(),
@@ -90,6 +88,7 @@ class MallGoodsList extends StatelessWidget {
   Widget _createGridItem(MallGoodsBean item){
     return Container(
       width: ScreenUtil().setWidth(220),
+      padding: EdgeInsets.only(left: 8, right: 8),
       child: Column(
         children: <Widget>[
           Image.network(item.image, width: ScreenUtil().setWidth(160),),
@@ -128,6 +127,7 @@ class MallGoodsList extends StatelessWidget {
   Widget _createListItem(MallGoodsBean item){
     return Container(
       height: ScreenUtil().setHeight(220),
+      padding: EdgeInsets.only(left: 8, right: 8),
       decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.black12, width: 1))),
       child: Row(
         children: <Widget>[

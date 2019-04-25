@@ -6,6 +6,7 @@ import 'package:flutter_baixing_shop/service/service_method.dart';
 import 'package:flutter_baixing_shop/bean/goods_details_result.dart';
 import 'goods_details_top.dart';
 import 'goods_details_tab.dart';
+import 'goods_action_view.dart';
 
 class GoodsDetailsPage extends StatelessWidget {
   final String goodsId;
@@ -55,16 +56,23 @@ class GoodsDetailsPage extends StatelessWidget {
   Widget getContentView(BuildContext context, GoodsDetailsProvider provider) {
     var queryData = MediaQuery.of(context);
     print("queryData.size.height ============> ${queryData.size.height}");
-    double height = queryData.size.height - queryData.padding.top - appBar.preferredSize.height;
-    return Container(
-      color: Colors.black12,
-      child: ListView(
-        children: <Widget>[
-          GoodsDetailsTop(provider: provider,),
-          GoodsDetailsTab(provider: provider,),
+//    double height = queryData.size.height - queryData.padding.top - appBar.preferredSize.height;
+    return Column(
+      children: <Widget>[
+        Expanded(
+          child: Container(
+            color: Colors.black12,
+            child: ListView(
+              children: <Widget>[
+                GoodsDetailsTop(provider: provider,),
+                GoodsDetailsTab(provider: provider,),
 //          GoodsDetailsTab2(provider: provider, height: height),
-        ],
-      ),
+              ],
+            ),
+          ),
+        ),
+        GoodsActionView(),
+      ],
     );
   }
 

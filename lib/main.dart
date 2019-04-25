@@ -10,6 +10,7 @@ import 'provide/category_provider.dart';
 import 'provide/mall_goods_provider.dart';
 import 'provide/goods_details_provider.dart';
 import 'provide/home_data_provider.dart';
+import 'provide/shopping_cart_provider.dart';
 
 void main() {
   var providers = Providers()
@@ -17,7 +18,8 @@ void main() {
     ..provide(Provider<CategoryProvider>.value(CategoryProvider()))
     ..provide(Provider<MallGoodsProvider>.value(MallGoodsProvider()))
     ..provide(Provider<GoodsDetailsProvider>.value(GoodsDetailsProvider()))
-    ..provide(Provider<HomeDataProvider>.value(HomeDataProvider()));
+    ..provide(Provider<HomeDataProvider>.value(HomeDataProvider()))
+    ..provide(Provider<ShoppingCartProvider>.value(ShoppingCartProvider()));
   runApp(ProviderNode(child: MyApp(), providers: providers));
 }
 
@@ -27,6 +29,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     //初始化路由
     Routes.initRoutes();
+
+    //初始化列表模式
+    getMallGoodsProvider(context).getModules();
+
+    //初始化购物车
+    ShoppingCartProvider.getProvider(context).getShoppingCart();
+
     return Container(
       child: MaterialApp(
         onGenerateRoute: Routes.router.generator,
