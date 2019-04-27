@@ -15,8 +15,7 @@ class MySwiper extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      height: ScreenUtil().setHeight(333),
-      width: ScreenUtil().setWidth(750),
+      height: 180,
       child: Swiper(
         itemCount: slideList.length,
         itemBuilder: (context, index){

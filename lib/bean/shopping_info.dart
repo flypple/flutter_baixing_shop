@@ -4,8 +4,9 @@ class ShoppingInfo {
   String image;
   double price;
   int count;
+  bool isChecked;
 
-  ShoppingInfo({this.goodsId, this.goodsName, this.image, this.price, this.count});
+  ShoppingInfo({this.goodsId, this.goodsName, this.image, this.price, this.count, this.isChecked = true});
 
   ShoppingInfo.fromJson(Map<String, dynamic> json) {
     goodsId = json["goodsId"];
@@ -13,6 +14,7 @@ class ShoppingInfo {
     image = json["image"];
     price = json["price"];
     count = json["count"];
+    isChecked = json["isChecked"] == null ? false : json["isChecked"];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class ShoppingInfo {
     map["image"] = image;
     map["price"] = price;
     map["count"] = count;
+    map["isChecked"] = isChecked;
     return map;
   }
 }

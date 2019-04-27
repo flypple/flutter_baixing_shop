@@ -43,7 +43,9 @@ class RecommendList extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image.network(item.image),
+            Expanded(
+              child: Image.network(item.image),
+            ),
             Text("￥${item.mallPrice}"),
             Text("￥${item.price}", style: TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 12),),
           ],

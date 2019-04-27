@@ -10,9 +10,10 @@ class ShoppingCartProvider with ChangeNotifier {
   List<ShoppingInfo> shoppingList = new List();
   double totalPrice = 0;
   int totalCount = 0;
+  bool isAllChecked = false;
 
   /// 添加一件商品到购物车
-  void addShopping(String goodsId, String goodsName, String image, double price, int count) async {
+  void addShopping(String goodsId, String goodsName, String image, double price, int count, bool isChecked) async {
 
     bool has = false;
     //查找，如果找到，数量+1
@@ -31,6 +32,7 @@ class ShoppingCartProvider with ChangeNotifier {
         image: image,
         price: price,
         count: count,
+        isChecked: isChecked,
       );
       //添加到购物车中
       shoppingList.add(shoppingInfo);
@@ -43,18 +45,18 @@ class ShoppingCartProvider with ChangeNotifier {
   void deleteShopping(ShoppingInfo info) async {
     if (shoppingList.contains(info)) {
       shoppingList.remove(info);
-    }
 
-    _doAfterChange();
+      _doAfterChange();
+    }
   }
 
   /// 增加一件商品的数量
   void add(ShoppingInfo info) async {
     if (shoppingList.contains(info)) {
       info.count ++;
-    }
 
-    _doAfterChange();
+      _doAfterChange();
+    }
   }
 
   /// 减少一件商品的数量
@@ -62,10 +64,10 @@ class ShoppingCartProvider with ChangeNotifier {
     if (shoppingList.contains(info)) {
       if (info.count > 1) {
         info.count --;
+
+        _doAfterChange();
       }
     }
-
-    _doAfterChange();
   }
 
   ///清空购物车
@@ -73,6 +75,22 @@ class ShoppingCartProvider with ChangeNotifier {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp.remove(Constants.shoppingData);
     shoppingList.clear();
+    _doAfterChange();
+  }
+
+  void checkAll(bool checkAll) {
+    isAllChecked = checkAll;
+    for (var value in shoppingList) {
+      value.isChecked = isAllChecked;
+    }
+
+    _doAfterChange();
+  }
+
+  void changeItemCheckedState(ShoppingInfo info) {
+    if (shoppingList.contains(info)) {
+      info.isChecked = !info.isChecked;
+    }
     _doAfterChange();
   }
 
@@ -126,12 +144,19 @@ class ShoppingCartProvider with ChangeNotifier {
   void calculate() {
     double price = 0;
     int count = 0;
+    int checkedCount = 0;
     for (var value in shoppingList) {
-      count += value.count;
-      price += value.count * value.price;
+      count += value.isChecked ? value.count : 0;
+      price += value.isChecked ? value.count * value.price : 0;
+      checkedCount += value.isChecked ? 1 : 0;
     }
     totalPrice = price;
     totalCount = count;
+    if (checkedCount == 0) {
+      isAllChecked = false;
+    } else if (checkedCount == shoppingList.length) {
+      isAllChecked = true;
+    }
   }
 
   static ShoppingCartProvider getProvider(BuildContext context) {

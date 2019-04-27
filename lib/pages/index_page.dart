@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_baixing_shop/provide/index_provider.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_baixing_shop/pages/home/home_page.dart';
 import 'package:flutter_baixing_shop/pages/category/category_page.dart';
-import 'cart_page.dart';
+import 'package:flutter_baixing_shop/pages/shopping_cart/cart_page.dart';
+import 'package:provide/provide.dart';
 import 'member_page.dart';
 
-class IndexPage extends StatefulWidget {
-  @override
-  _IndexPageState createState() => _IndexPageState();
-}
+class IndexPage extends StatelessWidget {
 
-class _IndexPageState extends State<IndexPage> {
   final List<BottomNavigationBarItem> _bottomTabs = [
     BottomNavigationBarItem(
       icon: Icon(CupertinoIcons.home),
@@ -40,36 +38,34 @@ class _IndexPageState extends State<IndexPage> {
     MemberPage(),
   ];
 
-  int _currentIndex = 0;
-  var _currentPage;
-  
-  @override
-  void initState() {
-    _currentPage = _pages[_currentIndex];
-    super.initState();
-  }
-  
   @override
   Widget build(BuildContext context) {
 
     ScreenUtil.instance = ScreenUtil(height: 1334, width: 750)..init(context);
 
-    return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        items: _bottomTabs,
-        currentIndex: _currentIndex,
-        onTap: (index){
-          setState(() {
-            _currentIndex = index;
-          });
-        },
-      ),
-      resizeToAvoidBottomPadding: false,
+    return Provide<IndexProvider>(
+      builder: (context, child, provider) {
+        return Scaffold(
+          body: IndexedStack(
+            index: provider.currentIndex,
+            children: _pages,
+          ),
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: Colors.grey, width: 0.5))
+            ),
+            child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              items: _bottomTabs,
+              currentIndex: provider.currentIndex,
+              onTap: (index){
+                provider.changeIndex(index);
+              },
+            ),
+          ),
+          resizeToAvoidBottomPadding: false,
+        );
+      },
     );
   }
 }

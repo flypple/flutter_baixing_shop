@@ -9,6 +9,7 @@ import 'package:flutter_baixing_shop/service/service_method.dart';
 import 'package:flutter_baixing_shop/provide/category_provider.dart';
 import 'package:flutter_baixing_shop/provide/mall_goods_provider.dart';
 import 'package:flutter_baixing_shop/route/routes.dart';
+import 'package:flutter_baixing_shop/utils/toast_utils.dart';
 
 
 class MallGoodsList extends StatelessWidget {
@@ -199,14 +200,15 @@ class MallGoodsList extends StatelessWidget {
         provider.pageIndex++;
         getMallGoodsProvider(context).addData(data.data);
         if (!getMallGoodsProvider(context).hasMore) {
-          Fluttertoast.showToast(
+          /*Fluttertoast.showToast(
             msg: "没有更多数据了……",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             backgroundColor: Colors.black54,
             fontSize: 12,
             textColor: Colors.white,
-          );
+          );*/
+          ToastUtils.showToast("没有更多数据了……");
         }
       }
     });

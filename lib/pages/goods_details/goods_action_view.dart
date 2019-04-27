@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:provide/provide.dart';
+
 import 'package:flutter_baixing_shop/provide/shopping_cart_provider.dart';
 import 'package:flutter_baixing_shop/provide/goods_details_provider.dart';
+import 'package:flutter_baixing_shop/provide/index_provider.dart';
 
 class GoodsActionView extends StatelessWidget {
   @override
@@ -11,23 +14,22 @@ class GoodsActionView extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 2,
+            flex: 3,
             child: InkWell(
-              onTap: () {},
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.white,
-                child: Icon(Icons.shopping_cart, color: Colors.pinkAccent,),
-              ),
+              onTap: () {
+                IndexProvider.getProvider(context).changeIndex(2);
+                Navigator.of(context).pop();
+              },
+              child: cartViewWithDot(),
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: InkWell(
               onTap: () {
                 var info = GoodsDetailsProvider.getProvider(context).goodsDetailsInfo.goodInfo;
                 ShoppingCartProvider.getProvider(context).addShopping(
-                  info.goodsId, info.goodsName, info.image1, info.presentPrice, 1,
+                  info.goodsId, info.goodsName, info.image1, info.presentPrice, 1, true
                 );
               },
               child: Container(
@@ -38,7 +40,7 @@ class GoodsActionView extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: InkWell(
               onTap: () {},
               child: Container(
@@ -49,6 +51,50 @@ class GoodsActionView extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Container cartView() {
+    return Container(
+      alignment: Alignment.center,
+      color: Colors.white,
+      child: Icon(Icons.shopping_cart, color: Colors.pinkAccent, size: 28,),
+    );
+  }
+
+  Widget cartViewWithDot() {
+    return Provide<ShoppingCartProvider>(
+      builder: (context, child, provider){
+        Widget widget;
+        if (provider.totalCount > 0) {
+          widget = Stack(
+            children: <Widget>[
+              cartView(),
+              countDot(provider),
+            ],
+          );
+        } else {
+          widget = cartView();
+        }
+        return widget;
+      },
+    );
+  }
+
+  Widget countDot(provider){
+    return Positioned(
+      top: 5,
+      right: 8,
+      child: Container(
+        width: 16,
+        height: 16,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Text("${provider.totalCount}", style: TextStyle(color: Colors.white, fontSize: 11),),
       ),
     );
   }
