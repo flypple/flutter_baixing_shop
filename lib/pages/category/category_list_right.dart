@@ -7,13 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_baixing_shop/provide/category_provider.dart';
 
-class CategoryListRight extends StatefulWidget {
-
-  @override
-  _CategoryListRightState createState() => _CategoryListRightState();
-}
-
-class _CategoryListRightState extends State<CategoryListRight> {
+class CategoryListRight extends StatelessWidget {
 
   ScrollController _scrollController = ScrollController();
 
@@ -49,7 +43,7 @@ class _CategoryListRightState extends State<CategoryListRight> {
                       getMallGoodsProvider(context).clear();
                       provider.newCategory = false;
                       provider.updateSubIndex(index);
-                      loadGoodsList();
+                      loadGoodsList(context);
                     }
                   },
                   child: Container(
@@ -72,7 +66,7 @@ class _CategoryListRightState extends State<CategoryListRight> {
     );
   }
 
-  void loadGoodsList(){
+  void loadGoodsList(BuildContext context){
     var provider = getCategoryProvider(context);
     getGoodsList(categoryId: provider.categoryId, subCategoryId: provider.subCategoryId, page: provider.pageIndex).then((value) {
       provider.pageIndex ++;

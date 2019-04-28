@@ -26,6 +26,7 @@ class GoodsDetailsPage extends StatelessWidget {
     }
 
     appBar = AppBar(
+      elevation: 0,
       leading: IconButton(
         icon: Icon(CupertinoIcons.back),
         onPressed: (){

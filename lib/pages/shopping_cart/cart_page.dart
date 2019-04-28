@@ -13,6 +13,7 @@ class ShoppingCartPage extends StatelessWidget {
     return Container(
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
           title: Text("购物车"),
         ),
         body: Provide<ShoppingCartProvider>(

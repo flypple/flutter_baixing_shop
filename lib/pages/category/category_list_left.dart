@@ -5,33 +5,19 @@ import 'package:flutter_baixing_shop/service/service_method.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_baixing_shop/provide/category_provider.dart';
+import 'package:provide/provide.dart';
 
-class CategoryListLeft extends StatefulWidget {
-  
-  @override
-  _CategoryListLeftState createState() => _CategoryListLeftState();
-}
+class CategoryListLeft extends StatelessWidget {
 
-class _CategoryListLeftState extends State<CategoryListLeft> {
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
-
-  void loadData() {
+  void loadData(BuildContext context) {
     getCategory().then((value){
-      setState(() {
-        var firstItem = value.data[0];
-        getCategoryProvider(context).setCategoryList(value.data);
-        //获取默认显示的小类的数据。
-        loadGoodsList();
-      });
+      getCategoryProvider(context).setCategoryList(value.data);
+      //获取默认显示的小类的数据。
+      loadGoodsList(context);
     });
   }
 
-  void loadGoodsList(){
+  void loadGoodsList(BuildContext context){
     var provider = getMallGoodsProvider(context);
     provider.clear();
     getGoodsList(categoryId: getCategoryProvider(context).categoryId,).then((value) {
@@ -41,31 +27,35 @@ class _CategoryListLeftState extends State<CategoryListLeft> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: ScreenUtil().setWidth(180),
-      decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(color: Colors.black26, width: 1)
-        )
-      ),
-      child: ListView.builder(
-        itemCount: getCategoryProvider(context).categoryList.length,
-        itemBuilder: (context, index){
-          return _getCategoryItem(index);
-        },
-      ),
+    loadData(context);
+
+    return Provide<CategoryProvider>(
+      builder: (context, child, provider) {
+        return Container(
+          width: ScreenUtil().setWidth(180),
+          decoration: BoxDecoration(
+              border: Border(
+                  right: BorderSide(color: Colors.black26, width: 1)
+              )
+          ),
+          child: ListView.builder(
+            itemCount: provider.categoryList.length,
+            itemBuilder: (context, index){
+
+              return _getCategoryItem(context, provider, index);
+            },
+          ),
+        );
+      },
     );
   }
   
-  Widget _getCategoryItem(int index){
-    var provider = getCategoryProvider(context);
+  Widget _getCategoryItem(BuildContext context, CategoryProvider provider, int index){
     return InkWell(
       onTap: () {
-        if (index != getCategoryProvider(context).currentIndex) {
-          setState(() {
-            getCategoryProvider(context).updateIndex(index);
-            loadGoodsList();
-          });
+        if (index != provider.currentIndex) {
+          provider.updateIndex(index);
+          loadGoodsList(context);
         }
       },
       child: Container(

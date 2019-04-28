@@ -8,7 +8,7 @@ import 'package:flutter_baixing_shop/pages/home/home_page.dart';
 import 'package:flutter_baixing_shop/pages/category/category_page.dart';
 import 'package:flutter_baixing_shop/pages/shopping_cart/cart_page.dart';
 import 'package:provide/provide.dart';
-import 'member_page.dart';
+import 'package:flutter_baixing_shop/pages/member/member_page.dart';
 
 class IndexPage extends StatelessWidget {
 
