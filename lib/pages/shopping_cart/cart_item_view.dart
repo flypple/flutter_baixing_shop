@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_baixing_shop/bean/shopping_info.dart';
 import 'package:flutter_baixing_shop/provide/shopping_cart_provider.dart';
 import 'package:flutter_baixing_shop/utils/toast_utils.dart';
+import 'package:flutter_baixing_shop/plugin/android_toast.dart';
 
 class CartItemView extends StatelessWidget {
   final ShoppingInfo shoppingInfo;
@@ -139,7 +140,7 @@ class CartItemView extends StatelessWidget {
       if (shoppingInfo.count > 1) {
         ShoppingCartProvider.getProvider(context).sub(shoppingInfo);
       } else {
-        ToastUtils.showToast("不能在减少了~");
+        AndroidToast.showToast("不能再减少了~");
       }
     }
   }

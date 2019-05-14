@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provide/provide.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter_baixing_shop/bean/mall_goods_bean.dart';
 import 'package:flutter_baixing_shop/service/service_method.dart';
