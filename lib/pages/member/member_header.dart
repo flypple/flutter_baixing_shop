@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_baixing_shop/plugin/platform_listener.dart';
+
 class MemberHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -33,12 +35,56 @@ class MemberHeader extends StatelessWidget {
             ),
 //            child: Image.network("https://avatars3.githubusercontent.com/u/30929958?s=460&v=4"),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 12),
-            child: Text("flypple", style: TextStyle(color: Colors.white, fontSize: 18),),
-          )
+          NameTitle(),
         ],
       ),
     );
   }
 }
+
+class NameTitle extends StatefulWidget {
+  @override
+  _NameTitleState createState() => _NameTitleState();
+}
+
+class _NameTitleState extends State<NameTitle> with SingleTickerProviderStateMixin {
+  int num = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    start();
+  }
+
+  void start() {
+    PlatformListener.reset();
+    PlatformListener.listen((data) {
+      setState(() {
+        print("监听到本地数据：$data");
+        num = data;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    stop();
+  }
+
+  void stop() {
+    PlatformListener.cancel();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 12),
+      child: InkWell(
+        onTap: start,
+        child: Text("flypple $num", style: TextStyle(color: Colors.white, fontSize: 18),),
+      ),
+    );
+  }
+}
+
